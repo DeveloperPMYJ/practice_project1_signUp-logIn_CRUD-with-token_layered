@@ -223,11 +223,35 @@ try {
 
   // 3. 토큰 검증 성공 시, 게시물 생성 함수 
   const {content} = req.body 
+  // 게시물 공백 허용하지 않음, 한 글자라도 있어야 함
+  if (content.length === 0 ) {
+    const error = new Error("CONTENT_TOO_SHORT 1글자 이상 적어주세요"); 
+    error.status = 400;
+    error.code="CONTENT_TOO_SHORT"
+    throw error;
+  }
+  // 4. 게시물 내용 DB에 저장 
+  const newPost = await myDataSource.query(`
+  INSERT INTO threads (
+    user_id, content
+  )VALUES (
+    '${id}
+    '${content}'
+  );
+  `);
+  console.log("new Post ID:", newPost.id);
+  console.log("new Post Content:", newPost.content);
+
+  // 성공 시 반환 
+  return res.status(200).json
 
 }catch(error){
   console.log(error);
+  return res.status(400).json({
+    error: error,
+  });
 }
-})
+});
 
 // 게시물 목록 읽기 Read 
 app.get("/readpost", async (req, res) => {
