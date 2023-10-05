@@ -175,7 +175,7 @@ app.post("/logIn", async (req, res) => {
       throw error;
     } // 보안을 위해 비밀번호, 패스워드 중 오류 알려주지 않기로 
 
-    // 로그인 성공 시 토큰 발급
+    // 로그인 성공 시 토큰 발급 -> jwt.sign함수
     const token = jwt.sign({ id: existingUser[0].id }, process.env.TYPEORM_JWT);
     return res.status(200).json({
       message: "LOGIN_SUCCESS 로그인 성공하였습니다",
@@ -204,3 +204,55 @@ start();
 myDataSource.initialize().then(() => {
   console.log("Data Source has been initialized!");
 });
+
+
+//게시물 생성 Create
+app.post ("/createpost", async (req, res) => {
+try {
+  // 1. 회원만 게시물 작성 가능 (header에서 '토큰 확인'=req.headers.authorization)
+  const token = req.headers.authorization; 
+  if(!token){
+    const error = new Error ("TOKEN_ERROR 게시물 작성 권한이 없습니다");
+    error.statusCode = 400;
+    error.code = "TOKEN_ERROR"
+    throw error;
+  }
+  // 2. '토큰 검증'= jwt.verify함수
+  // 첫 인자 token, 두번째 인자 토큰 검증 시크릿키 -> 검증 성공 시 토큰 해독한 내용 return -> 값을 변수 id에 할당 
+  const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+
+  // 3. 토큰 검증 성공 시, 게시물 생성 함수 
+  const {content} = req.body 
+
+}catch(error){
+  console.log(error);
+}
+})
+
+// 게시물 목록 읽기 Read 
+app.get("/readpost", async (req, res) => {
+  try{
+
+  }catch(error){
+    console.log(error);
+  }
+
+})
+
+// 게시물 수정 Update 
+app.post("/updatepost", async (req, res) => {
+  try{
+
+  }catch(error){
+    console.log(error);
+  }
+})
+
+// 게시물 삭제 Delete 
+app.post("/deletepost", async (req, res) => {
+  try{
+    
+  }catch(error){
+    console.log(error);
+  }
+})
