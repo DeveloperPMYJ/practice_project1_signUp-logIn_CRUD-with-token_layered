@@ -6,7 +6,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const { DataSource } = require("typeorm");
+const { DataSource, UpdateDateColumn } = require("typeorm");
 
 const myDataSource = new DataSource({
   type: process.env.DB_CONNECTION,
@@ -238,13 +238,13 @@ try {
   )VALUES (
     '${id}',
     '${content}'
-  );4
+  )
   `);
   console.log("new Post ID:", newPost.id);
   console.log("new Post Content:", newPost.content);
 
   // 성공 시 반환 
-  return res.status(200).json({message: "POST CREATED 게시물 생성 완료"}); //code: 로 하는 건가?
+  return res.status(200).json({message: "POST CREATED 게시물 생성 완료"}); 
   } 
    // if 에서 fasle면 throw error- catch error
    catch(error){
@@ -258,11 +258,11 @@ app.get("/readpost", async (req, res) => {
 try{
   const getPost = await myDataSource.query(`
     SELECT  
-    threads.id AS postId,
+    threads.id AS postId, 
     threads.content, 
     threads.created_at AS createdAt
     FROM threads
-    `);
+    `); //threads 테이블의 id , content, createe_at 
   return res.status(200).json({message:"POST LIST 게시물 목록 조회"}) 
   }
   catch(error){
@@ -273,22 +273,9 @@ try{
 // image 가져올 때 user id 
 
 // 게시물 삭제 Delete (create랑 비슷한 로직)
-app.post("/deletepost", async (req, res) => {
+app.delete("/deletepost", async (req, res) => {
   try{
-    // user id, post id, createddate select from DB 
-    const {content} = req.body 
-    
-  }catch(error){
-    console.log(error);
-  }
-})
-
-
-
-// 게시물 수정 Update 
-app.post("/updatepost", async (req, res) => {
-try {
-// 1. 토큰 확인, 검증 
+    //1. 토큰 검증 (회원인지)
     // 회원만 게시물 작성 가능 (header에서 '토큰 확인'=req.headers.authorization)
     const token = req.headers.authorization; 
     if(!token){
@@ -300,14 +287,64 @@ try {
     // '토큰 검증'= jwt.verify함수
     // 첫 인자 token, 두번째 인자 토큰 검증 시크릿키 -> 검증 성공 시 토큰 해독한 내용 return -> 값을 변수 id에 할당 
     const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
-  
+         //token변수 선언된 'req.headers.authorization의 id를 가져온다. 
+    //토큰 검증 성공 시, 게시물 생성 함수 
+    
+    //2. 작성한 게시물의 주인이 맞는지 (아무나꺼 건드리면 안 되니) -> if 중복 확인 
+    // body에서 content를 가져와야 함 
+    if()
+    //3. 게시물 삭제 
+    const {content} = req.body   //회색으로 뜨는 건, 변수 사용이 안 돼서, 아래에서 쓰이지 않아서 -> console.log만 찍어도 흰색 됨
+    console.log(content)
+
+        // user id, post id, createddate select from DB 
+    const deletePost = await myDataSource.query(` 
+      DELETE 
+      threads.user.id, 
+      threads.id,
+      threads.created_at
+      FROM threads
+      `)//threads 테이블의 userd_id (fk), post_id(pk), created_at
+    console.log(deletePost)
+  }catch(error){
+    console.log(error);
+  }
+})
+
+
+
+// 게시물 수정 Update 
+app.put("/updatepost", async (req, res) => {
+try {
+// 1. 토큰 확인, 검증 (회원인지)
+    // 회원만 게시물 작성 가능 (header에서 '토큰 확인'=req.headers.authorization)
+    const token = req.headers.authorization; 
+    if(!token){
+      const error = new Error ("TOKEN_ERROR 게시물 작성 권한이 없습니다");
+      error.statusCode = 400;
+      error.code = "TOKEN_ERROR"
+      throw error;
+    }
+    // '토큰 검증'= jwt.verify함수
+    // 첫 인자 token, 두번째 인자 토큰 검증 시크릿키 -> 검증 성공 시 토큰 해독한 내용 return -> 값을 변수 id에 할당 
+    const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+         //token변수 선언된 'req.headers.authorization의 id를 가져온다. 
     //토큰 검증 성공 시, 게시물 생성 함수 
     const {content} = req.body 
+    //req.body에서 content를 가져온다
+  
+  //2. 작성한 게시물의 주인이 맞는지 (아무나꺼 건드리면 안 되니) if 중복 비교 
+    if()
 
-
-  //2. 토큰 확인 후 게시물 삭제 
+  //3. 토큰 확인 후 게시물 삭제 
     // userID, postId, createdDate select from DB 
-    // if 로 중복 비교
+    
+    threads.user.id, 
+    threads.id,
+    threads.created_at
+    FROM threads
+    `)
+
     // delete select 문 
 
 
