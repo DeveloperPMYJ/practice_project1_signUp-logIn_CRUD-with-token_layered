@@ -243,9 +243,10 @@ try {
   console.log("new Post Content:", newPost.content);
 
   // 성공 시 반환 
-  return res.status(200).json
-
-}catch(error){
+  return res.status(200).json({message: "POST CREATED 게시물 생성 완료"}); //code: 로 하는 건가?
+  } 
+   // if 에서 fasle면 throw error- catch error
+   catch(error){
   console.log(error);
   return res.status(400).json({
     error: error,
