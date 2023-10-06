@@ -237,7 +237,7 @@ try {
   )VALUES (
     '${id}
     '${content}'
-  );
+  );4
   `);
   console.log("new Post ID:", newPost.id);
   console.log("new Post Content:", newPost.content);
@@ -248,21 +248,25 @@ try {
    // if 에서 fasle면 throw error- catch error
    catch(error){
   console.log(error);
-  return res.status(400).json({
-    error: error,
-  });
+  return res.status(400).json({message:"FAILED"});
 }
 });
 
 // 게시물 목록 읽기 Read 
 app.get("/readpost", async (req, res) => {
-  try{
-
-  }catch(error){
-    console.log(error);
+try{
+  const 
+  if ( ){
+  
+  throw error 
   }
-
-})
+  return res.status(200).json({message:"POST LIST 게시물 목록"}) 
+  }
+  catch(error){
+  console.log(error);
+  return res.status(400).json({message:"FAILED"})
+  }
+})  //code 성공, error.code 실패 or message:성공, message:실패 
 
 // 게시물 수정 Update 
 app.post("/updatepost", async (req, res) => {
