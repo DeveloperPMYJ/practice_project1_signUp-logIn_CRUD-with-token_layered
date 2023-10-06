@@ -252,21 +252,21 @@ try {
 }
 });
 
-// 게시물 목록 읽기 Read 
+// 게시물 목록 조회 Read 
 app.get("/readpost", async (req, res) => {
 try{
-  const 
-  if ( ){
-  
-  throw error 
-  }
-  return res.status(200).json({message:"POST LIST 게시물 목록"}) 
+  const getPost = await myDataSource.query(`
+    SELECT  
+    user.id,
+    users.nickname, threads.id AS postID, 
+    `);
+  return res.status(200).json({message:"POST LIST 게시물 목록 조회"}) 
   }
   catch(error){
   console.log(error);
   return res.status(400).json({message:"FAILED"})
   }
-})  //code 성공, error.code 실패 or message:성공, message:실패 
+} //code 성공, error.code 실패 or message:성공, message:실패 
 
 // 게시물 수정 Update 
 app.post("/updatepost", async (req, res) => {
