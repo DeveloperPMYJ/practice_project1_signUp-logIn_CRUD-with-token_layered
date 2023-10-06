@@ -223,19 +223,20 @@ try {
 
   // 3. 토큰 검증 성공 시, 게시물 생성 함수 
   const {content} = req.body 
-  // 게시물 공백 허용하지 않음, 한 글자라도 있어야 함
+    // 게시물 공백 허용하지 않음, 한 글자라도 있어야 함
   if (content.length === 0 ) {
     const error = new Error("CONTENT_TOO_SHORT 1글자 이상 적어주세요"); 
     error.status = 400;
     error.code="CONTENT_TOO_SHORT"
     throw error;
-  }
+  } //메세지 기니까, 팀원들끼리 코드 분리 시 따로 써주는 
+
   // 4. 게시물 내용 DB에 저장 
   const newPost = await myDataSource.query(`
   INSERT INTO threads (
     user_id, content
   )VALUES (
-    '${id}
+    '${id}',
     '${content}'
   );4
   `);
@@ -257,8 +258,10 @@ app.get("/readpost", async (req, res) => {
 try{
   const getPost = await myDataSource.query(`
     SELECT  
-    user.id,
-    users.nickname, threads.id AS postID, 
+    threads.id AS postId,
+    threads.content, 
+    threads.created_at AS createdAt
+    FROM threads
     `);
   return res.status(200).json({message:"POST LIST 게시물 목록 조회"}) 
   }
@@ -267,21 +270,57 @@ try{
   return res.status(400).json({message:"FAILED"})
   }
 } //code 성공, error.code 실패 or message:성공, message:실패 
+// image 가져올 때 user id 
 
-// 게시물 수정 Update 
-app.post("/updatepost", async (req, res) => {
-  try{
-
-  }catch(error){
-    console.log(error);
-  }
-})
-
-// 게시물 삭제 Delete 
+// 게시물 삭제 Delete (create랑 비슷한 로직)
 app.post("/deletepost", async (req, res) => {
   try{
+    // user id, post id, createddate select from DB 
+    const {content} = req.body 
     
   }catch(error){
     console.log(error);
   }
 })
+
+
+
+// 게시물 수정 Update 
+app.post("/updatepost", async (req, res) => {
+try {
+// 1. 토큰 확인, 검증 
+    // 회원만 게시물 작성 가능 (header에서 '토큰 확인'=req.headers.authorization)
+    const token = req.headers.authorization; 
+    if(!token){
+      const error = new Error ("TOKEN_ERROR 게시물 작성 권한이 없습니다");
+      error.statusCode = 400;
+      error.code = "TOKEN_ERROR"
+      throw error;
+    }
+    // '토큰 검증'= jwt.verify함수
+    // 첫 인자 token, 두번째 인자 토큰 검증 시크릿키 -> 검증 성공 시 토큰 해독한 내용 return -> 값을 변수 id에 할당 
+    const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+  
+    //토큰 검증 성공 시, 게시물 생성 함수 
+    const {content} = req.body 
+
+
+  //2. 토큰 확인 후 게시물 삭제 
+    // userID, postId, createdDate select from DB 
+    // if 로 중복 비교
+    // delete select 문 
+
+
+  if(){
+    const error = new Error ("");
+    error.statusCode = 400;
+    error.code=""
+  throw error;
+  return res.status(200).json({message:"POST UPDATED 수정 완료"})
+  } 
+  catch(error){
+  console.log(error);
+  return res.status(400).json(error);
+  }
+})
+
