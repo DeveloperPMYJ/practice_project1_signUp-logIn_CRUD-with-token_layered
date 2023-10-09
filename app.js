@@ -6,16 +6,6 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-const { DataSource, UpdateDateColumn } = require("typeorm");
-
-const myDataSource = new DataSource({
-  type: process.env.DB_CONNECTION,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
 
 const app = express();
 
@@ -58,3 +48,22 @@ app.get("/readpost", postService.readPost)
 // 게시물 삭제 Delete (create랑 비슷한 로직), Update
 app.delete("/deletepost", postService.deletePost)
 app.put("/updatepost", postService.updatePost)
+
+  // 서버 구동 
+  const portNumber = process.env.PORT || 8000;
+  
+  const start = async () => {
+    try {
+      await server.listen(portNumber);
+      console.log(`Server is listening on ${portNumber}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  start();
+  
+  myDataSource.initialize().then(() => {
+    console.log("Data Source has been initialized!");
+  });
+  

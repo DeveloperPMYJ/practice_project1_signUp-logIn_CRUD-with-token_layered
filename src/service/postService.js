@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken')
+const {postDao} = require('../models')
 
 const createPost = async (req, res) => {
     try {
@@ -25,14 +26,7 @@ const createPost = async (req, res) => {
       } //메세지 기니까, 팀원들끼리 코드 분리 시 따로 써주는 
     
       // 4. 게시물 내용 DB에 저장 
-      const newPost = await myDataSource.query(`
-      INSERT INTO threads (
-        user_id, content
-      )VALUES (
-        '${id}',
-        '${content}'
-      )
-      `);
+      const newPost = await postDa0.createPostStorageData(id, content)
       console.log("new Post ID:", newPost.id);
       console.log("new Post Content:", newPost.content);
     
@@ -43,25 +37,18 @@ const createPost = async (req, res) => {
       catch(error){
       console.log(error);
       return res.status(400).json({message:"FAILED"});
-    }
     };
     
     //게시물 조회
     const readPost = async (req, res) => {
         try{
           console.log(req.body) //req 변수 사용해주기 위해 (회색표시)
-          const getPost = await myDataSource.query(`
-            SELECT  
-            threads.id AS postId, 
-            threads.content, 
-            threads.created_at AS createdAt
-            FROM threads
-            `); //threads 테이블의 id , content, createe_at 
-          console.log(getPost)
+          const getPost = await postDao.readPostList(threads.id, content, createdAt)
+
           return res.status(200).json({message:"POST LIST 게시물 목록 조회"}) 
-          } 
-          
-          catch(error){
+        
+          console.log(getPost)
+        } catch(error){
           console.log(error);
           return res.status(400).json({message:"FAILED"})
           }
@@ -88,11 +75,7 @@ const createPost = async (req, res) => {
           
           //2. 작성한 게시물의 주인이 맞는지 (아무나꺼 건드리면 안 되니) -> if 중복 확인 
           // body에서 content를 가져와야 함 
-          const existingUser = await myDataSource.query(`
-          SELECT id, email, password FROM users WHERE email='${email}';
-          `);
-          console.log("existing user:", existingUser);
-      
+          const existingUser = await postDao.getDeletingPost(id,email, password)
           if (existingUser.length === 0) {
             const error = new Error("삭제할 권한이 없습니다");
             error.statusCode = 400;

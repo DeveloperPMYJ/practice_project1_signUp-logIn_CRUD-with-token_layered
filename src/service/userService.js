@@ -1,3 +1,6 @@
+const jwt = require ('jsonwebtoken')
+const {userDao} = require ('../models')
+
 const signUp = async (req, res) => {
     try {
       console.log(req.body); //통신 때 body 찍어보기 위해 
@@ -16,11 +19,7 @@ const signUp = async (req, res) => {
       }
   
       // 이메일 중복 확인
-      const existingUser = await myDataSource.query(`
-        SELECT id, email FROM users WHERE email='${email}';   
-        `);
-      console.log("existing user:", existingUser);
-  
+      const existingUser = await userDao.getUserByInfoByEmail(email)
       if (existingUser.length > 0) {
         const error = new Error("DUPLICATED_EMAIL_ADDRESS");
         error.statusCode = 400;
@@ -48,18 +47,7 @@ const signUp = async (req, res) => {
       const hashedPw = await bcrypt.hash(password, saltRounds);
   
       // Database에 회원가입 성공한 유저 정보 저장 
-      const userData = await myDataSource.query(`
-          INSERT INTO users (                    
-          password,
-          email, 
-          nickname
-          )
-          VALUES (
-          '${hashedPw}', 
-          '${email}',
-          '${nickname}'
-          )
-      `);
+      const userData = await userDao.storeUserData(password, email, nickname)
   
         console.log("after insert into", userData);
   
@@ -73,7 +61,7 @@ const signUp = async (req, res) => {
         message: 'failed 회원가입에 실패하였습니다',
       });
     }
-  });
+  };
   // 위에서 던진 try 안에 if 문 true면 return 201, false면 catch error로 
   
   
@@ -133,26 +121,9 @@ const logIn = async (req, res) => {
       console.log(error);
       return res.status(400).json(error);
     }
-  });
-  
-  // 서버 구동 
-  const portNumber = process.env.PORT || 8000;
-  
-  const start = async () => {
-    try {
-      await server.listen(portNumber);
-      console.log(`Server is listening on ${portNumber}`);
-    } catch (err) {
-      console.error(err);
-    }
   };
   
-  start();
-  
-  myDataSource.initialize().then(() => {
-    console.log("Data Source has been initialized!");
-  });
-  
+
 
   module.exports = {
     "signUp" : signUp,
