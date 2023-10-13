@@ -44,7 +44,7 @@ const createPost = async (req, res) => {
         try{
           console.log(req.body) //req 변수 사용해주기 위해 (회색표시)
           const getPost = await postDao.readPostList(threads.id, content, createdAt)
-
+// ()는 post id 로 하나의 post 가져올 때, 전체 목록이면 필요 없음 select * from 하면 되니
           return res.status(200).json({message:"POST LIST 게시물 목록 조회"}) 
         
           console.log(getPost)
@@ -86,11 +86,7 @@ const createPost = async (req, res) => {
           console.log(content)
         // user id, post id, createddate select from DB 
           const deletePost = await myDataSource.query(`
-          DELETE 
-          threads.user.id,
-          threads.id,
-          threads.created_at
-          FROM threads
+          DELETE FROM threads WHERE users.id=${id} and post.id=${postId}
           `)//threads 테이블의 userd_id (fk), post_id(pk), created_at
 
           console.log(deletePost) //deltePost 변수 사용해주기 위해 (회색표시 -> 흰색)
