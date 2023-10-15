@@ -26,7 +26,7 @@ const readPostList = async (threads.id, content, createAt) => {
 
 const getDeletingPost = async (id, email, password) => {
 const deleteData= await myDataSource.query(`
-          SELECT id, email, password FROM users WHERE email='${email}';
+          DELETE FROM threads WHERE user.id='${id}', post.id=${postId};
           `);
           return deleteData
             }

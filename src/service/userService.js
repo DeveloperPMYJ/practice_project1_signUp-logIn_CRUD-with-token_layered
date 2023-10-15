@@ -1,6 +1,31 @@
 const jwt = require ('jsonwebtoken')
 const {userDao} = require ('../models')
 
+myDataSource.initialize()
+.then(() => {
+  console.log("Data Source has been initialized!");
+});
+
+
+const getUsers = async (req, res) => {
+  try {
+    const userData = await myDataSource.query(
+      "SELECT id, nickname, email FROM USERS "
+    );
+
+    console.log("USER DATA:", userData);
+
+    return res.status(200).json({
+      users: userData,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 const signUp = async (req, res) => {
     try {
       console.log(req.body); //통신 때 body 찍어보기 위해 
@@ -127,5 +152,6 @@ const logIn = async (req, res) => {
 
   module.exports = {
     "signUp" : signUp,
+    "getUsers": getUsers,
     "logIn":logIn
   }
