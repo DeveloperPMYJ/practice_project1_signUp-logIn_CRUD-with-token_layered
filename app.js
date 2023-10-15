@@ -27,7 +27,7 @@ app.get("/users", userService.getUsers)
 app.post("/users/signup", userService.signUp)
 app.post("/logIn", userService.logIn)
 app.post ("/createpost", postService.createPost)
-app.get("/readpost", postService.readPost)
+app.get("/getpost", postService.getPost)
 app.delete("/deletepost", postService.deletePost)
 app.put("/updatepost", postService.updatePost)
 

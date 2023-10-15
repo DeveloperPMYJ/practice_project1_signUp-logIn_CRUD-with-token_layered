@@ -1,40 +1,51 @@
 const {myDataSource} = require('./dataSource.js')
 
-const createPostStorageData = async (id, content) => {
-    const postData= await myDataSource.query(`
-      INSERT INTO threads (
-        user_id, content
-      )VALUES (
-        '${id}',
+const createPost = async (userId, content) => {
+    const newPost = await myDataSource.query(`
+      INSERT INTO 
+      threads (
+        user_id, 
+        content
+      )
+      VALUES (
+        '${userId}',
         '${content}'
       )
       `)
-      return postData
+      return newPost
       }
 
+// 모든 data 조회, read? 
+const getPost = async () => {
+  const readData = await myDataSource.query(`
+            SELECT *
+            FROM threads 
+            `); 
+    return readData
+} 
 
-const readPostList = async (threads.id, content, createAt) => {
-   const readData= await myDataSource.query(`
-            SELECT  
-            threads.id AS postId, 
-            threads.content, 
-            threads.created_at AS createdAt
-            FROM threads
-            `); //threads 테이블의 id , content, createe_at 
-          return readData
-          } 
+const deletePost = async (userId, threadsId) => {
+  const deletingPostData = await myDataSource.query(`
+    DELETE FROM 
+    threads
+    WHERE user.id='${userId}', threads.id=${threadsId};
+    `);
+    return deletingPostData
+}
 
-const getDeletingPost = async (id, email, password) => {
-const deleteData= await myDataSource.query(`
-          DELETE FROM threads WHERE user.id='${id}', post.id=${postId};
-          `);
-          return deleteData
-            }
-          console.log("existing user:", existingUser);
-      
+const updatePost = async (userId, threadsId, content, createdAt) => {
+  const updatingPostData = await myDataSource.query(`
+    UPDATE  
+    userId, threadsId, content, creatdAt 
+    SET threads 
+    WHERE email='${email}'
+  `);
+  return updatingPostData
+}
 
-          module.exports = {
-            createPostStorageData,
-            readPostList,
-            getDeletingPost
+  module.exports = {
+  createPost,
+  getPost,
+  deletePost,
+  updatePost 
           }
