@@ -67,7 +67,7 @@ const updatePost = async (id, threadsId, newContent) => {
   throw error;
   }
   
-  const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+//  const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
 
   if (!id ) {
     const error = new Error ("verify_token_ERROR 게시물 작성 권한이 없습니다");
