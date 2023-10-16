@@ -36,8 +36,9 @@ const deletePost = async (userId, threadsId) => {
 const updatePost = async (userId, threadsId, content, createdAt) => {
   const updatingPostData = await myDataSource.query(`
     UPDATE  
-    userId, threadsId, content, creatdAt 
-    SET threads 
+      userId, threadsId, content, creatdAt 
+    SET 
+      threads 
     WHERE email='${email}'
   `);
   return updatingPostData
