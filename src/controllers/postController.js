@@ -44,14 +44,16 @@ const getPost = async (req, res) => {
 const deletePost = async (req,res) => {
   try {
     const token = req.headers.authorization; 
+
+    const { id } = jwt.verify(token, process.env.TYPEORM_JWT);
+    console.log(id);
+
+    const { threadsId } = req.body 
+    // const { id } = req.body ; userId는 token에 'id'로 담겨 있음 
+
     
-    const { userId} = req.body
-    const { threadsId } = req.body
-
   // service 파일의 비즈니스 로직으로 'content' 보냄
-  await postService.deletePost(userId, threadsId)
-
-  const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+  await postService.deletePost(id, threadsId)
 
   return res.status(200).json({message:"DELETE POST 게시물 삭제"}) 
   } 
@@ -59,6 +61,7 @@ const deletePost = async (req,res) => {
     return res.status(400).json({message:"FAILED"});
   };
 };
+
     
 const updatePost = async (req,res) => {
   try {
