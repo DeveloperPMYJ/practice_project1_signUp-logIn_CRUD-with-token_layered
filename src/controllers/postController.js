@@ -12,6 +12,7 @@ const createPost = async (req, res) => {
   // service 파일의 비즈니스 로직으로 'content' 보냄
   await postService.createPost(content)
 
+
   const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
 
   console.log(id);
@@ -49,7 +50,7 @@ const deletePost = async (req,res) => {
     console.log(id);
 
     const { threadsId } = req.body 
-    // const { id } = req.body ; userId는 token에 'id'로 담겨 있음 
+ // const { id } = req.body ; userId는 token에 'id'로 담겨 있음 
 
     
   // service 파일의 비즈니스 로직으로 'content' 보냄
@@ -66,7 +67,6 @@ const deletePost = async (req,res) => {
 const updatePost = async (req,res) => {
   try {
     const token = req.headers.authorization; 
-
     console.log(token);
 
     const { id } = jwt.verify(token, process.env.TYPEORM_JWT); //const { userId } = req.body 를 token에 담긴 id (같은 userId) ; token에 id를 담는다.패스워드는 위험해서 안 담고. 누군지만 알게. 

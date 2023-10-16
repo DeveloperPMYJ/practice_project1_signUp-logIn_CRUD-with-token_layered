@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const {postDao} = require('../models')
 
 const createPost = async (userId, content) => {
-      
+
     if(!token){
       const error = new Error ("TOKEN_ERROR 게시물 작성 권한이 없습니다");
       error.statusCode = 400;
@@ -18,6 +18,7 @@ const createPost = async (userId, content) => {
       error.code = "verify_token_ERROR";
     throw error;
     }
+
 
     if (content.length === 0 ) {
       const error = new Error("CONTENT_TOO_SHORT 1글자 이상 적어주세요"); 
@@ -57,7 +58,6 @@ const deletePost = async (id, threadsId) => {
 }
 
 
-    
 const updatePost = async (id, threadsId, newContent) => {
   
   if(!token){
@@ -67,8 +67,7 @@ const updatePost = async (id, threadsId, newContent) => {
   throw error;
   }
   
-  const updatingId = jwt.verify(token,process.env.TYPEORM_JWT);
-  const id = updatingId.id
+  const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
 
   if (!id ) {
     const error = new Error ("verify_token_ERROR 게시물 작성 권한이 없습니다");
