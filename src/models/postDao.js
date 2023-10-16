@@ -16,10 +16,11 @@ const createPost = async (userId, content) => {
       }
 
 // 모든 data 조회, read? 
-const getPost = async () => {
+const getPost = async (postId) => {
   const readData = await myDataSource.query(`
             SELECT *
             FROM threads 
+            WHERE threads.id = ${postId}
             `); 
     return readData
 } 
@@ -33,13 +34,13 @@ const deletePost = async (userId, threadsId) => {
     return deletingPostData
 }
 
-const updatePost = async (userId, threadsId, content, createdAt) => {
+const updatePost = async (userId, threadsId) => {
   const updatingPostData = await myDataSource.query(`
     UPDATE  
       userId, threadsId, content, creatdAt 
     SET 
       threads 
-    WHERE email='${email}'
+    WHERE user.id='${userId}', threads.id=${threadsId};
   `);
   return updatingPostData
 }

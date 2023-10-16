@@ -24,8 +24,10 @@ const createPost = async (userId, content) => {
 
     
 //게시물 조회
-const getPost = async () => {
-    const readData = await postDao.getPost()
+const getPost = async (postId) => {
+
+    const readData = await postDao.getPost(postId)
+    
     return readData
   }
     
@@ -40,12 +42,12 @@ const deletePost = async (userId, threadsId) => {
     throw error;
     }
 
-  const deletingPostData  = await postDao.deletePost(userId, postId)
+  const deletingPostData  = await postDao.deletePost(userId, threadsId, content, createdAt)
   return deletingPostData  
 }
 
     
-const updatePost = async (req, res) => {
+const updatePost = async (content) => {
   if(!token){
   const error = new Error ("TOKEN_ERROR 게시물 수정 권한이 없습니다");
   error.statusCode = 400;
