@@ -22,8 +22,3 @@ app.post ("/createpost", postService.createPost)
 app.get("/getpost", postService.getPost)
 app.delete("/deletepost", postService.deletePost)
 app.put("/updatepost", postService.updatePost)
-
-
-
-
-  const validateToken = async 
