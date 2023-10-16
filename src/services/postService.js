@@ -47,7 +47,7 @@ const deletePost = async (userId, threadsId) => {
 }
 
     
-const updatePost = async (content) => {
+const updatePost = async (userId, threadsId, newContent, updatedAt) => {
   if(!token){
   const error = new Error ("TOKEN_ERROR 게시물 수정 권한이 없습니다");
   error.statusCode = 400;
@@ -57,9 +57,9 @@ const updatePost = async (content) => {
   
   const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
 
-  const updatingPostData = await postDao.query(userId, threadsId, content, createdAt)
+  const updatingPostData = await postDao.query(userId, threadsId, newContent, updatedAt)
   
-  if (updatingPostData.content.length === 0) {
+  if (updatingPostData.newContent.length === 0) {
     const error = new Error("수정 권한이 없습니다");
     error.statusCode = 400;
     error.code = "unauthorized user"

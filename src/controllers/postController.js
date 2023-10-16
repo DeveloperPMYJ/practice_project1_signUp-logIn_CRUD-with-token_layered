@@ -58,10 +58,13 @@ const deletePost = async (req,res) => {
 const updatePost = async (req,res) => {
   try {
     const token = req.headers.authorization; 
-    const {content} = req.body 
+
+    const { userId } = req.body
+    const { threadsId } = req.body
+    const { newContent } = req.body 
 
   // service 파일의 비즈니스 로직으로 'content' 보냄
-  await postService.updatePost(content)
+  await postService.updatePost(userId, threadsId, newContent)
 
   return res.status(200).json({ message:"POST UPDATED 수정 완료"
   });

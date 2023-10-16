@@ -28,19 +28,18 @@ const getPost = async (postId) => {
 const deletePost = async (userId, threadsId) => {
   const deletingPostData = await myDataSource.query(`
     DELETE FROM 
-    threads
-    WHERE user.id='${userId}', threads.id=${threadsId};
+      threads
+    WHERE user_id='${userId}', threads.id=${threadsId};
     `);
     return deletingPostData
 }
 
-const updatePost = async (userId, threadsId) => {
+const updatePost = async (userId, threadsId, newContent, updatedAt) => {
   const updatingPostData = await myDataSource.query(`
-    UPDATE  
-      userId, threadsId, content, creatdAt 
+    UPDATE threads
     SET 
-      threads 
-    WHERE user.id='${userId}', threads.id=${threadsId};
+      content = '${newContent}', updatedAt = NOW ()
+    WHERE user_id='${userId}' AND threads.id=${threadsId};
   `);
   return updatingPostData
 }
