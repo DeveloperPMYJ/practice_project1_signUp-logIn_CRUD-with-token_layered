@@ -13,10 +13,14 @@ const createPost = async (req, res) => {
   await postService.createPost(content)
 
   const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
+  
+  console.log(id);
 
   return res.status(200).json({message: "POST CREATED 게시물 생성 완료"}); 
   } 
   catch(error){
+    console.error('JWT verification failed:', err.message);
+    console.log(error);
     return res.status(400).json({message:"FAILED"});
   }
 };

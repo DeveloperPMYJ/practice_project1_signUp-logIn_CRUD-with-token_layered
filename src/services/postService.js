@@ -10,12 +10,22 @@ const createPost = async (userId, content) => {
         throw error;
       }
 
+    console.log(token);
+
+    if (!id) {
+      const error = new Error ("verify_token_ERROR 게시물 작성 권한이 없습니다");
+      error.statusCode = 400;
+      error.code = "verify_token_ERROR";
+      throw error;
+    }
+
     if (content.length === 0 ) {
         const error = new Error("CONTENT_TOO_SHORT 1글자 이상 적어주세요"); 
         error.status = 400;
         error.code="CONTENT_TOO_SHORT"
         throw error;
       } 
+      
     const newPost = await postDao.createPost(userId, threadsId, content, createdAt)
     return newPost
 }

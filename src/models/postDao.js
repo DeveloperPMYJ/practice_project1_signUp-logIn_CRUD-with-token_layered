@@ -1,19 +1,21 @@
 const {myDataSource} = require('./dataSource.js')
 
-const createPost = async (userId, content) => {
+const createPost = async (id, content) => {
     const newPost = await myDataSource.query(`
       INSERT INTO 
-      threads (
-        user_id, 
-        content
+        threads (
+          user_id, 
+          content
       )
       VALUES (
-        '${userId}',
+        '${id}',
         '${content}'
       )
       `)
       return newPost
       }
+      
+      console.log (newPost);
 
 // 모든 data 조회, read? 
 const getPost = async (postId) => {
