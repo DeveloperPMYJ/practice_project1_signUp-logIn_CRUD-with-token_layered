@@ -49,8 +49,10 @@ const deletePost = async (userId, threadsId) => {
     error.code = "TOKEN_ERROR"
     throw error;
     }
+    console.log(token);
 
-  const deletingPostData  = await postDao.deletePost(userId, threadsId, content, createdAt)
+
+  const deletingPostData  = await postDao.deletePost(id, threadsId)
   return deletingPostData  
 }
 
