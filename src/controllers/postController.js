@@ -67,12 +67,16 @@ const updatePost = async (req,res) => {
   try {
     const token = req.headers.authorization; 
 
-    const { userId } = req.body
+    console.log(token);
+
+    const { id } = jwt.verify(token, process.env.TYPEORM_JWT); //const { userId } = req.body 를 token에 담긴 id (같은 userId) ; token에 id를 담는다.패스워드는 위험해서 안 담고. 누군지만 알게. 
     const { threadsId } = req.body
     const { newContent } = req.body 
 
+    console.log(id);
+
   // service 파일의 비즈니스 로직으로 'content' 보냄
-  await postService.updatePost(userId, threadsId, newContent)
+  await postService.updatePost(id, threadsId, newContent)
 
   return res.status(200).json({ message:"POST UPDATED 수정 완료"
   });
