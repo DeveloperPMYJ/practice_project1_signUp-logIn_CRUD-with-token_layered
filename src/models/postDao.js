@@ -14,8 +14,6 @@ const createPost = async (id, content) => {
       `)
       return newPost
       }
-      
-      console.log (newPost);
 
 // 모든 data 조회, read? 
 const getPost = async (postId) => {

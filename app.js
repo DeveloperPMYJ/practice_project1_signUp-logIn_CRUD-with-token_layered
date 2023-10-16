@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const dotenv = require("dotenv")
 dotenv.config()
 
-const routes = require("./routes");
+const routes = require("./src/routes");
 
 const app = express();
 

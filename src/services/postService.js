@@ -41,7 +41,7 @@ const getPost = async (postId) => {
     
 
 // 게시물 삭제
-const deletePost = async (userId, threadsId) => {
+const deletePost = async (id, threadsId) => {
 
     if(!token){
       const error = new Error ("TOKEN_ERROR 게시물 삭제 권한이 없습니다");
