@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const {postDao} = require('../models')
 
-const createPost = async (userId, content) => {
+const createPost = async (id, content) => {
 
     if(!token){
       const error = new Error ("TOKEN_ERROR 게시물 작성 권한이 없습니다");
