@@ -36,7 +36,7 @@ const deletePost = async (req,res) => {
     const {content} = req.body 
 
   // service 파일의 비즈니스 로직으로 'content' 보냄
-  await postService.createPost(content)
+  await postService.deletePost(content)
 
   const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
 
@@ -53,7 +53,7 @@ const updatePost = async (req,res) => {
     const {content} = req.body 
 
   // service 파일의 비즈니스 로직으로 'content' 보냄
-  await postService.createPost(content)
+  await postService.updatePost(content)
 
   return res.status(200).json({ message:"POST UPDATED 수정 완료"
   });
