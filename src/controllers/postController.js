@@ -13,7 +13,7 @@ const createPost = async (req, res) => {
   await postService.createPost(content)
 
   const {id} = jwt.verify(token,process.env.TYPEORM_JWT);
-  
+
   console.log(id);
 
   return res.status(200).json({message: "POST CREATED 게시물 생성 완료"}); 
@@ -30,6 +30,7 @@ const getPost = async (req, res) => {
   try { 
 
   const { postId } = req.body;
+//console.log(req.body); 
 
   await postService.deletePost(postId)
 

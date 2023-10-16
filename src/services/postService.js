@@ -25,13 +25,11 @@ const createPost = async (userId, content) => {
         error.code="CONTENT_TOO_SHORT"
         throw error;
       } 
-      
+
     const newPost = await postDao.createPost(userId, threadsId, content, createdAt)
     return newPost
 }
   
-
-
     
 //게시물 조회
 const getPost = async (postId) => {
