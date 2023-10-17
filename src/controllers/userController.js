@@ -2,11 +2,12 @@
 //비즈니스 로직으로 들어가야할 데이터들이 올바른 형태를 띄고 있는지 선검증 작업
 //  Key Error 를 사전에 에러처리로 검열
 const express = require('express');
-const userService = require('../services');
+const { userService } = require('../services');
 
  
 const getUsers = async (req, res) => {
   try {
+
     return res.status(200).json({
     users: userData});
   } catch (error) {
@@ -27,7 +28,7 @@ const signUp = async (req, res) => {
     }
 
     // service 파일의 비즈니스 로직으로 'email, password, nickname' 보냄
-    await userServcie.signUp(email, password, nickname)
+    await userService.signUp(email, password, nickname)
 
     // 프론트에 res 보내는 부분 
     return res.status(201).json({

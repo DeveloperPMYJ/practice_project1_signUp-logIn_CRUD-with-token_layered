@@ -1,14 +1,14 @@
-// userController를 부른다. 
-const express = require('express');
-const userController = require('../controllers');
+// userController를 부른다.
+const express = require("express");
+const { userController } = require("../controllers");
 //const userController = require('../controllers/userController.js')
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get('/getusers', userController.getUsers);
-router.post('/signup', userController.signUp);
+userRouter.get("/getusers", userController.getUsers);
+userRouter.post("/signup", userController.signUp);
 // router.post('/signup', () => {console.log("Router Connected")}
-router.post('/login', userController.logIn);
+userRouter.post("/login", userController.logIn);
 
-module.exports = { router }
-//함수명 내보내주기 
+module.exports = { userRouter };
+//함수명 내보내주기

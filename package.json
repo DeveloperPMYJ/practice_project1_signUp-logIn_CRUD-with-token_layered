@@ -1,10 +1,10 @@
 {
   "name": "46-1st-team6-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "(with token) (layered) : signUp-logIn_CRUD _based project 1",
   "main": "app.js",
   "scripts": {
-    "start": "app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
