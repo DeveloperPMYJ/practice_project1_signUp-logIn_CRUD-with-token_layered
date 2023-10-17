@@ -22,13 +22,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-// app.get("/users", userService.getUsers);
-// app.post("/users/signup", userService.signUp);
-// app.post("/logIn", userService.logIn);
-// app.post("/createpost", postService.createPost);
-// app.get("/getpost", postService.getPost);
-// app.delete("/deletepost", postService.deletePost);
-// app.put("/updatepost", postService.updatePost);
 
 // 서버 구동
 const server = http.createServer(app);
