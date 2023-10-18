@@ -17,6 +17,7 @@ const getUsers = async (req, res) => {
 
 const signUp = async (req, res) => {
   try {
+    console.log(1)
     console.log('userController connencted')
     const { email, password, nickname } = req.body;
   

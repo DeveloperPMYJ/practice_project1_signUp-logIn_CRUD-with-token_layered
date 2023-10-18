@@ -27,7 +27,7 @@ const createPost = async (id, content) => {
     throw error;
       } 
 
-    const newPost = await postDao.createPost(userId, threadsId, content, createdAt)
+    const newPost = await postDao.createPost(id, threadsId, content, createdAt)
     return newPost
 }
   

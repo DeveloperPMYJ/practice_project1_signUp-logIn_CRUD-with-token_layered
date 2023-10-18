@@ -1,5 +1,5 @@
 const express = require('express');
-const postService = require('../services');
+const { postService } = require('../services');
 
 
 const createPost = async (req, res) => {
