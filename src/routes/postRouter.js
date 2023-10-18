@@ -5,7 +5,7 @@ const { postController } = require("../controllers");
 
 const postRouter = express.Router();
 
-postRouter.get("/readpost", postController.getPost);
+postRouter.get("/getpost", postController.getPost);
 postRouter.post("/createpost", postController.createPost);
 postRouter.delete("/deletepost/:id", postController.deletePost);
 postRouter.put("/updatepost/:id", postController.updatePost);
